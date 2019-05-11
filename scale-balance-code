@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html>
+<body>
+<style>
+
+/*CSS CODE*/
+/*general setup for elements witin the header tag */
+header{
+  background:#ad974f;
+  color: #eaeaea;
+  text-align: center;
+  margin: 0 0 30px 0;
+  padding: 20px 10px 20px 10px;
+  font-size: 12px;
+  box-radius: 10px;
+}
+/* setup for tag h1 */
+
+h1{
+  color:yellow;
+  font-family: ravie
+  ;
+}
+/* setup for tag h2*/
+h2{
+  text-align:center;
+  margin: 0 auto;
+  }
+/* setup for tag h3 */
+h3{
+  color: #eaeaea;
+  text-align:center;
+  margin: 0 auto;
+  }
+p{
+ font-family: papyrus;
+}
+
+/*setup for span*/
+span{
+  color: yellow;
+  font-family:lucida;
+}
+/*general setup for elements witin the body */
+body{
+  background-color:#3a4660;
+  text-align: center;
+  color:white;
+  font-family:harrington,comic sans;
+  margin:auto;
+}
+/*general setup for elements witin the section tag */
+.bottom-wrapper {
+  padding: 50px 0 ;
+   background-image:url(https://media.gettyimages.com/photos/oldfashioned-weight-on-weighing-scale-against-gray-background-picture-id539884427?s=2048x2048);
+  color: white;
+  text-align: center;
+}
+section {
+  width: 40%;
+  margin: auto;
+  margin-bottom: 50px;
+  background: #ad9730;
+  padding: 40px 20px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  box-shadow: 5px 5px;
+  color:gold;
+}
+
+/* setup for text inputs*/
+section input {
+  display: block;    
+  width: 75%;
+  margin: 10px 0 10px 30px;
+  font-size: 20px;
+  padding: 20px;
+  border: 3px solid #d8d8d8;
+  border-radius: 8px;
+  color: #0b3b2e;
+}
+/* setup for button*/
+section button {
+  display: block;
+  margin: 20px auto;
+  font-size: 17px;
+  font-family:forte;
+  padding: 10px;
+  background: #ad974f;
+  color: #eaeaea;
+  border-radius: 7px;
+}
+section button:hover {
+  background:#8e793e;
+  cursor: pointer;
+  color: white;
+  font-size: 18px;
+}
+/* setup for answer display */
+section #result {
+  font-family: Times romans;
+  display: block;
+  width: 75%;
+  height: 130px;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 30px;
+  color: white;
+  margin: 0 auto;
+  opacity: 1;
+  transition: all 1s linear 0.0s;
+}
+section #result:hover{
+  border: 3px solid gold;
+  background: gold;
+  color: green;
+  opacity: 1;
+}
+
+/* setup for comment display */
+section #note {
+font-family:aharoni;
+  color: gold;
+  margin-top: 50px; 
+}
+/* setup for screens of maximum span 1000px */
+ @media(max-width: 1000px) {
+  section {
+    width:60%;
+  }
+}
+/* setup for screens of maximum span 600px */
+@media(max-width: 600px) {
+  section {
+    width: 90%;
+    padding:  20px 20px 40px 20px;
+  }
+}
+
+</style>
+
+
+
+<h1> SCALE BALANCING </center> </h1>
+<h2> The platform that balances your scale...<h2>
+  <p> <span>To represent the two weights on your scale:</span><br> Input two positive integers (whole numbers) into the first input field below, separate by a comma.<br> 
+    <span>To represent the other weights in your list: </span> <br>Input a series of positive integers into the second input field, with commas as separators.<br> 
+    Press the button provided!
+  </p>.
+  <div class="bottom-wrapper">
+    <section>
+      <div class="form">
+        <label for="scale-weights"><h3>Weights on scale:</h3></label>
+        <input  oninput ="clearUp()" id="scale-weights" type="text" placeholder="Enter two weights for the scale...">
+        </input>
+      <label for="list-weights"><h3> List of available weights:</h3></label>
+      <input oninput ="clearUp()" id="list-weights" type="text" placeholder="Enter list of weights "></input>
+    <br> 
+    <div id="result"> </div>
+    <p id="note"> </p>
+
+
+    <button onclick="scaleBalancing()">Balance scale</button>
+
+  </div>  
+  </section>
+  </div>
+
+<script>
+//Assign global script constants to div display
+const displayResult = document.getElementById("result");
+const comment =  document.getElementById("note");
+
+const scaleBalancing = () => {
+
+  const scaleWeights = document.getElementById("scale-weights").value;
+  const listWeights = document.getElementById("list-weights").value;
+
+  if(!scaleWeights || !listWeights)           //reject empty inputs
+    return displayResult.innerHTML ="Please fill up both input fields as required",comment.innerHTML="";
+  let scale = scaleWeights.split(",");
+  let list = listWeights.split(",") ;
+
+  if(scale.length!==2)                      //accept only two values for first input
+    return displayResult.innerHTML="Error! Input exactly two positive numbers for 'weights on scale' ",comment.innerHTML= "Tip: remove all non-numerals, negative numbers, redundant commas and white spaces.";
+  scale = scale.map(Number);
+  list = list.map(Number);
+
+  
+  let sum1 = 0, sum2 = 0, arr = [];                //initialise some working variables
+  for (let count = 0; count < list.length; count++ ){
+    if (isNaN(scale[0])||isNaN(scale[1])||isNaN(list[count]))
+      return  displayResult.innerHTML="Error! Please, input only positive whole numbers in both fields";
+    else if(scale[0] <= 0 || scale[1] <= 0 || list[count] <= 0)
+      return  displayResult.innerHTML="Error! Cannot include non-numerals or values less than 1", comment.innerHTML= "Tip: exclude zeros, negative numbers, letters, symbols, redundant commas and white spaces.";
+    if (scale[0]===scale[1])                  //compare values of first input
+    return displayResult.innerHTML="Scale is already balanced.", comment.innerHTML= "Tip: input different values in the first input field";
+    sum1 = scale[0] + list[count];
+    for (let i = 0; i < list.length; i++){
+      sum2 = scale[1] + list[i];
+      if (sum1 === sum2){                 //compare the sums for equality
+        if (list[count] + list[i] < arr[0] + arr[1]) {
+          arr[0] = list[count] < list[i] ? list[count] : list[i];
+          arr[1] = list[i] > list[count] ? list[i] : list[count];
+        } 
+        list[count] < list[i] ? arr.push(list[count], list[i]): arr.push(list[i], list[count]);
+      } 
+    }
+    arr.splice(2);                      //keep only the first two elements of the array
+  }
+  displayResult.innerHTML = arr.length === 0 ? "Scale Imbalanced." : arr ;     
+  comment.innerHTML = arr.length === 0 ? "Tip: Try varying the weights in your list.":`To balance your scale, place ${arr[1]} on the lighter side and ${arr[0]} on the heavier side. `;
+}
+const clearUp = () => {
+  displayResult.innerHTML = "";
+  comment.innerHTML="";
+}
+</script>
+</body>
+<html>
