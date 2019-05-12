@@ -44,7 +44,7 @@ span{
 }
 /*general setup for elements witin the body */
 body{
-  background-color:#3a4660;
+  background-color:gold;
   text-align: center;
   color:white;
   font-family:harrington,comic sans;
